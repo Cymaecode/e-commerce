@@ -1,7 +1,3 @@
 # E-commerce
-1 23 
-saljdljsald
-wqewqe
-----
-
-editing from pycharm
+An E-commerce Website using Django
+for learning purposes. 
