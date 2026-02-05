@@ -13,4 +13,3 @@ def cart_remove(request):
 # serves the cart detail page to the user
 def cart_detail(request):
     return render(request, 'cart/cart_detail.html')
-

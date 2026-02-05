@@ -1,6 +1,6 @@
 # E-commerce
-An E-commerce Website using Django
-for learning purposes. 
+An E-commerce Website using Django for learning purposes. 
 
-# Edit from My side
-## Hello Cy!
+## Fixing the Template
+going through the code removing Angular functions and fixing the HTML
+according to Django Template System.
