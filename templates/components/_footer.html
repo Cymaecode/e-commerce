@@ -1,0 +1,75 @@
+<footer class="bg-gray-800 text-white mt-12">
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <!-- About -->
+            <div class="col-span-2 lg:col-span-1">
+                <h3 class="text-xl font-bold text-red-500 mb-4">LuxeThreads</h3>
+                <p class="text-gray-400 text-sm">Your destination for premium fashion at unbeatable prices. Inspired by
+                    the best, for the best.</p>
+            </div>
+
+            <!-- Shop -->
+            <div>
+                <h4 class="font-semibold mb-4">Shop</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="{% url 'store:product_list' %}?gender=Women" class="hover:text-white">Women</a></li>
+                    <li><a href="{% url 'store:product_list' %}?gender=Men" class="hover:text-white">Men</a></li>
+                    <li><a href="{% url 'store:product_list' %}?category_slug=accessories" class="hover:text-white">Accessories</a>
+                    </li>
+                    <li><a href="{% url 'store:product_list' %}" class="hover:text-white">All Products</a></li>
+                </ul>
+            </div>
+
+            <!-- About Us -->
+            <div>
+                <h4 class="font-semibold mb-4">About Us</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white">Our Story</a></li>
+                    <li><a href="#" class="hover:text-white">Careers</a></li>
+                    <li><a href="#" class="hover:text-white">Press</a></li>
+                </ul>
+            </div>
+
+            <!-- Help -->
+            <div>
+                <h4 class="font-semibold mb-4">Help</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white">FAQs</a></li>
+                    <li><a href="#" class="hover:text-white">Shipping</a></li>
+                    <li><a href="#" class="hover:text-white">Returns</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-span-2 md:col-span-4 lg:col-span-1">
+                <h4 class="font-semibold mb-4">Subscribe to our Newsletter</h4>
+                <p class="text-sm text-gray-400 mb-4">Get the latest deals and new product alerts.</p>
+                <form method="POST" action="#" class="flex">
+                    {% csrf_token %}
+                    <input type="email"
+                           name="email"
+                           placeholder="Your email"
+                           class="bg-gray-700 text-white rounded-l-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-red-500"
+                           required>
+                    <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 rounded-r-md px-4 py-2 font-semibold transition-colors">
+                        Sign Up
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <hr class="my-8 border-gray-700">
+
+        <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+            <p class="text-gray-400">&copy; {% now "Y" %} LuxeThreads. All Rights Reserved.</p>
+            <div class="flex space-x-4 mt-4 md:mt-0">
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-pinterest text-xl"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>

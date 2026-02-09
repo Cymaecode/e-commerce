@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Image Gallery -->
+        <div>
+            <div class="mb-4">
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="w-full h-auto object-cover rounded-lg shadow-lg"
+                     id="main-image">
+            </div>
+
+            {% if product.gallery %}
+            <div class="flex space-x-2 overflow-x-auto">
+                <button onclick="changeMainImage('{{ product.image.url }}')"
+                        class="focus:outline-none focus:ring-2 focus:ring-red-500 rounded flex-shrink-0">
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}"
+                         class="w-20 h-20 lg:w-24 lg:h-24 object-cover rounded-md cursor-pointer border-2 border-red-500"
+                         id="thumb-main">
+                </button>
+
+                {% for img in product.gallery %}
+                <button onclick="changeMainImage('{{ img }}')"
+                        class="focus:outline-none focus:ring-2 focus:ring-red-500 rounded flex-shrink-0">
+                    <img src="{{ img }}"
+                         alt="{{ product.name }}"
+                         class="w-20 h-20 lg:w-24 lg:h-24 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-gray-300"
+                         id="thumb-{{ forloop.counter }}">
+                </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Info -->
+        <div>
+            <div class="text-sm text-gray-500 mb-2">
+                <a href="{% url 'store:product_list_by_category' product.category.slug %}"
+                   class="hover:text-red-600">{{ product.category.name }}</a> /
+                <span>{{ product.gender }}</span>
+            </div>
+
+            <h1 class="text-3xl lg:text-4xl font-bold mb-3">{{ product.name }}</h1>
+
+            <div class="flex items-center mb-4">
+                <div class="flex text-yellow-400">
+                    {% with stars=product.rating|floatformat:0 %}
+                    {% for i in "12345" %}
+                    <i class="fa fa-star {% if forloop.counter <= stars %}fa-solid{% else %}fa-regular{% endif %}"></i>
+                    {% endfor %}
+                    {% endwith %}
+                </div>
+                <span class="text-gray-500 ml-2 text-sm">({{ product.review_count }} reviews)</span>
+            </div>
+
+            <div class="flex items-baseline mb-6">
+                <p class="text-3xl font-bold text-red-600">${{ product.price }}</p>
+                {% if product.original_price %}
+                <p class="text-xl text-gray-400 line-through ml-3">${{ product.original_price }}</p>
+                <span class="bg-red-100 text-red-700 text-sm font-semibold px-2 py-1 rounded-md ml-4">
+          {{ product.get_discount_percentage }}% OFF
+        </span>
+                {% endif %}
+            </div>
+
+            <p class="text-gray-600 mb-6">{{ product.description }}</p>
+
+            <!-- Size Selector -->
+            {% if product.sizes %}
+            <div class="mb-6">
+                <h3 class="font-semibold mb-2">Size: <span class="text-gray-600" id="selected-size">Select size</span>
+                </h3>
+                <div class="flex flex-wrap gap-2" id="size-selector">
+                    {% for size in product.sizes %}
+                    <button onclick="selectSize('{{ size }}')"
+                            class="border rounded-md px-4 py-2 hover:border-black transition-colors size-option"
+                            data-size="{{ size }}">
+                        {{ size }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Color Selector -->
+            {% if product.colors %}
+            <div class="mb-6">
+                <h3 class="font-semibold mb-2">Color: <span class="text-gray-600"
+                                                            id="selected-color">Select color</span></h3>
+                <div class="flex flex-wrap gap-2" id="color-selector">
+                    {% for color in product.colors %}
+                    <button onclick="selectColor('{{ color }}')"
+                            class="border-2 rounded-full w-8 h-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 color-option"
+                            data-color="{{ color }}"
+                            style="background-color: {{ color|lower }};"
+                            title="{{ color }}">
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Add to Cart Form with HTMX -->
+            <form method="POST"
+                  action="{% url 'cart:cart_add' product.id %}"
+                  hx-post="{% url 'cart:cart_add' product.id %}"
+                  hx-target="#cart-count"
+                  hx-swap="innerHTML"
+                  class="add-to-cart-form">
+                {% csrf_token %}
+
+                <!-- Hidden fields for selected options -->
+                <input type="hidden" name="size" id="size-input" value="">
+                <input type="hidden" name="color" id="color-input" value="">
+                {{ cart_product_form }}
+
+                <button type="submit"
+                        id="add-to-cart-btn"
+                        class="w-full bg-red-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+                    Add to Cart
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Image gallery functionality
+    function changeMainImage(imageUrl) {
+        const mainImage = document.getElementById('main-image');
+        mainImage.src = imageUrl;
+
+        // Update thumbnail borders
+        document.querySelectorAll('[id^="thumb-"]').forEach(thumb => {
+            thumb.classList.remove('border-red-500');
+            thumb.classList.add('border-transparent');
+        });
+
+        // Highlight clicked thumbnail
+        const clickedThumb = Array.from(document.querySelectorAll('[id^="thumb-"]')).find(
+            thumb => thumb.src.includes(imageUrl.split('/').pop())
+        );
+        if (clickedThumb) {
+            clickedThumb.classList.remove('border-transparent');
+            clickedThumb.classList.add('border-red-500');
+        }
+    }
+
+    // Size selector
+    let selectedSize = '';
+    function selectSize(size) {
+        selectedSize = size;
+        document.getElementById('selected-size').textContent = size;
+        document.getElementById('size-input').value = size;
+
+        // Update button styles
+        document.querySelectorAll('.size-option').forEach(btn => {
+            btn.classList.remove('bg-black', 'text-white');
+            btn.classList.add('bg-white', 'text-black');
+        });
+
+        // Highlight selected
+        const selectedBtn = document.querySelector(`.size-option[data-size="${size}"]`);
+        if (selectedBtn) {
+            selectedBtn.classList.remove('bg-white', 'text-black');
+            selectedBtn.classList.add('bg-black', 'text-white');
+        }
+
+        updateAddToCartButton();
+    }
+
+    // Color selector
+    let selectedColor = '';
+    function selectColor(color) {
+        selectedColor = color;
+        document.getElementById('selected-color').textContent = color;
+        document.getElementById('color-input').value = color;
+
+        // Update button borders
+        document.querySelectorAll('.color-option').forEach(btn => {
+            btn.classList.remove('border-black');
+            btn.classList.add('border-gray-300');
+        });
+
+        // Highlight selected
+        const selectedBtn = document.querySelector(`.color-option[data-color="${color}"]`);
+        if (selectedBtn) {
+            selectedBtn.classList.remove('border-gray-300');
+            selectedBtn.classList.add('border-black');
+        }
+
+        updateAddToCartButton();
+    }
+
+    // Update add to cart button state
+    function updateAddToCartButton() {
+        const addButton = document.getElementById('add-to-cart-btn');
+        const hasSizes = {{ product.sizes|yesno:"true,false" }};
+        const hasColors = {{ product.colors|yesno:"true,false" }};
+
+        let isDisabled = false;
+        if (hasSizes && !selectedSize) isDisabled = true;
+        if (hasColors && !selectedColor) isDisabled = true;
+
+        addButton.disabled = isDisabled;
+        if (isDisabled) {
+            addButton.title = 'Please select ' +
+                             (hasSizes && !selectedSize ? 'size' : '') +
+                             (hasSizes && hasColors && !selectedSize && !selectedColor ? ' and ' : '') +
+                             (hasColors && !selectedColor ? 'color' : '');
+        } else {
+            addButton.title = '';
+        }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAddToCartButton();
+
+        // HTMX: Show success message when added to cart
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            if (event.detail.target.id === 'cart-count') {
+                // Show success message
+                showNotification('Added to cart!', 'success');
+
+                // Reset form if needed
+                const form = document.querySelector('.add-to-cart-form');
+                if (form) {
+                    form.reset();
+                    selectedSize = '';
+                    selectedColor = '';
+                    document.getElementById('selected-size').textContent = 'Select size';
+                    document.getElementById('selected-color').textContent = 'Select color';
+                    updateAddToCartButton();
+
+                    // Reset button styles
+                    document.querySelectorAll('.size-option').forEach(btn => {
+                        btn.classList.remove('bg-black', 'text-white');
+                    });
+                    document.querySelectorAll('.color-option').forEach(btn => {
+                        btn.classList.remove('border-black');
+                    });
+                }
+            }
+        });
+    });
+
+    // Notification function
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-6 py-3 rounded-lg shadow-lg z-50 transform transition-transform duration-300`;
+        notification.textContent = message;
+        notification.id = 'notification';
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+</script>
+
+<style>
+    .size-option:hover {
+        border-color: black;
+    }
+
+    .color-option:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s;
+    }
+</style>
+{% endblock %}

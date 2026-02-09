@@ -31,6 +31,22 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now = True)
     stock = models.PositiveIntegerField(default = 0)
 
+    rating = models.DecimalField(max_digits = 3, decimal_places = 2, default = 0.0)
+    review_count = models.IntegerField(default = 0)
+    sizes = models.JSONField(default = list, blank = True)
+    colors = models.JSONField(default = list, blank = True)
+    gallery = models.JSONField(default = list, blank = True)
+
+    # Gender
+    GENDER_CHOICES = (
+        ("Men", "Men"),
+        ("Women", "Women"),
+        ("Unisex", "Unisex"),
+    )
+    gender = models.CharField(max_length = 10, choices = GENDER_CHOICES, default = "Unisex")
+    original_price = models.DecimalField(max_digits = 10, decimal_places = 2, null = True, blank = True)
+    is_new = models.BooleanField(default = False)
+
     class Meta:
         ordering = ("name",)
         indexes = [
@@ -48,3 +64,12 @@ class Product(models.Model):
     def in_stock(self):
         return self.stock > 0
 
+    def get_discount(self):
+        if self.original_price and self.original_price > self.price:
+            return int(((self.original_price - self.price) / self.original_price) * 100)
+        return 0
+
+    def get_discount_percentage(self):
+        if self.original_price and self.original_price > self.price:
+            return int(((self.original_price - self.price) / self.original_price) * 100)
+        return 0

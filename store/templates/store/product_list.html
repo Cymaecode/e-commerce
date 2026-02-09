@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex">
+        <!-- Filter Sidebar (Desktop) -->
+        <aside class="hidden lg:block w-1/4 pr-8">
+            <div class="sticky top-24">
+                <h2 class="text-2xl font-bold mb-4">Filters</h2>
+
+                <!-- Category Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2">Category</h3>
+                    <div class="space-y-2">
+                        <button hx-get="{% url 'store:product_list' %}"
+                                hx-target="#product-grid"
+                                hx-vals='{"gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
+                                name="category"
+                                value=""
+                                class="block w-full text-left hover:text-red-600 {% if not category %}font-bold text-red-600{% endif %}">
+                            All
+                        </button>
+                        {% for cat in categories %}
+                        <button hx-get="{% url 'store:product_list' %}"
+                                hx-target="#product-grid"
+                                hx-vals='{"gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
+                                name="category_slug"
+                                value="{{ cat.slug }}"
+                                class="block w-full text-left hover:text-red-600 {% if category and category.slug == cat.slug %}font-bold text-red-600{% endif %}">
+                            {{ cat.name }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Gender Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2">Gender</h3>
+                    <div class="space-y-2">
+                        <button hx-get="{% url 'store:product_list' %}"
+                                hx-target="#product-grid"
+                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
+                                name="gender"
+                                value="all"
+                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'all' %}font-bold text-red-600{% endif %}">
+                            All
+                        </button>
+                        <button hx-get="{% url 'store:product_list' %}"
+                                hx-target="#product-grid"
+                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
+                                name="gender"
+                                value="Men"
+                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'Men' %}font-bold text-red-600{% endif %}">
+                            Men
+                        </button>
+                        <button hx-get="{% url 'store:product_list' %}"
+                                hx-target="#product-grid"
+                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
+                                name="gender"
+                                value="Women"
+                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'Women' %}font-bold text-red-600{% endif %}">
+                            Women
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Price Filter -->
+                <div class="mb-6">
+                    <h3 class="font-semibold mb-2">Price</h3>
+                    <input type="range"
+                           min="0"
+                           max="500"
+                           value="{{ current_price_max }}"
+                           name="price_max"
+                           hx-get="{% url 'store:product_list' %}"
+                           hx-target="#product-grid"
+                           hx-trigger="change, input delay:500ms"
+                           hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "gender": "{{ current_gender }}", "sort_by": "{{ current_sort }}"}'
+                           class="w-full">
+                    <div class="text-sm text-gray-600 text-center mt-1">Up to $<span id="price-value">{{ current_price_max }}</span>
+                    </div>
+                </div>
+
+                <button hx-get="{% url 'store:product_list' %}"
+                        hx-target="#product-grid"
+                        class="w-full bg-gray-700 text-white py-2 rounded-md hover:bg-gray-800 transition-colors">
+                    Reset Filters
+                </button>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="w-full lg:w-3/4">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">
+                    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+                </h1>
+                <div class="flex items-center space-x-4">
+                    <button id="mobile-filter-btn" class="lg:hidden bg-gray-200 px-4 py-2 rounded-md">
+                        <i class="fa fa-filter mr-2"></i> Filters
+                    </button>
+                    <select name="sort_by"
+                            hx-get="{% url 'store:product_list' %}"
+                            hx-target="#product-grid"
+                            hx-trigger="change"
+                            hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}"}'
+                            class="border rounded-md px-4 py-2">
+                        <option value="default" {% if current_sort==
+                        'default' %}selected{% endif %}>Default</option>
+                        <option value="newest" {% if current_sort==
+                        'newest' %}selected{% endif %}>Newest</option>
+                        <option value="price-asc" {% if current_sort==
+                        'price-asc' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="price-desc" {% if current_sort==
+                        'price-desc' %}selected{% endif %}>Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products will be loaded here -->
+            <div id="product-container">
+                {% include 'store/partials/_product_listing.html' %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Filter Sidebar -->
+    <div id="mobile-filter-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+         onclick="closeMobileFilters()"></div>
+    <div id="mobile-filter-panel"
+         class="fixed top-0 left-0 w-80 h-full bg-white shadow-xl z-50 p-6 overflow-y-auto transform -translate-x-full transition-transform duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Filters</h2>
+            <button onclick="closeMobileFilters()"><i class="fa fa-times text-2xl"></i></button>
+        </div>
+        <div class="space-y-6">
+            <!-- Mobile filters content (same as desktop but with hx attributes) -->
+            <div>
+                <h3 class="font-semibold mb-2">Category</h3>
+                <div class="space-y-2">
+                    {% include 'store/partials/_mobile_filter_buttons.html' %}
+                </div>
+            </div>
+        </div>
+        <button onclick="applyMobileFilters(); closeMobileFilters();"
+                class="mt-8 w-full bg-gray-700 text-white py-3 rounded-md hover:bg-gray-800 transition-colors">
+            Apply Filters & Close
+        </button>
+    </div>
+</div>
+
+<script>
+    // Mobile filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileFilterBtn = document.getElementById('mobile-filter-btn');
+        const mobileFilterSidebar = document.getElementById('mobile-filter-sidebar');
+        const mobileFilterPanel = document.getElementById('mobile-filter-panel');
+
+        if (mobileFilterBtn) {
+            mobileFilterBtn.addEventListener('click', function() {
+                mobileFilterSidebar.classList.remove('hidden');
+                mobileFilterPanel.classList.remove('-translate-x-full');
+            });
+        }
+
+        // Update price display
+        const priceSlider = document.querySelector('input[name="price_max"]');
+        const priceValue = document.getElementById('price-value');
+
+        if (priceSlider && priceValue) {
+            priceSlider.addEventListener('input', function() {
+                priceValue.textContent = this.value;
+            });
+        }
+    });
+
+    function closeMobileFilters() {
+        document.getElementById('mobile-filter-sidebar').classList.add('hidden');
+        document.getElementById('mobile-filter-panel').classList.add('-translate-x-full');
+    }
+
+    function applyMobileFilters() {
+        // Collect all mobile filter values and trigger HTMX request
+        htmx.trigger('#product-container', 'updateFilters');
+    }
+</script>
+{% endblock %}

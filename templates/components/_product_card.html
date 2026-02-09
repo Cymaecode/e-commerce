@@ -1,0 +1,35 @@
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+    <a href="{% url 'store:product_detail' product.id product.slug %}" class="block group">
+        <div class="relative">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-80 object-cover">
+
+            {% if product.get_discount_percentage > 0 %}
+            <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                -{{ product.get_discount_percentage }}%
+            </span>
+            {% endif %}
+
+            {% if product.is_new %}
+            <span class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                NEW
+            </span>
+            {% endif %}
+
+            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                View Details
+            </div>
+        </div>
+        <div class="p-4">
+            <h3 class="text-sm font-semibold text-gray-500 truncate">
+                {{ product.category.name }} - {{ product.gender }}
+            </h3>
+            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">{{ product.name }}</h2>
+            <div class="flex items-baseline mt-2">
+                <p class="text-xl font-bold text-red-600">${{ product.price }}</p>
+                {% if product.original_price %}
+                <p class="text-sm text-gray-400 line-through ml-2">${{ product.original_price }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>

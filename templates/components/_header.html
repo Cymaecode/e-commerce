@@ -1,0 +1,153 @@
+<header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+        <!-- Top Bar -->
+        <div class="flex justify-between items-center py-2 text-xs text-gray-500">
+            <div>
+                <span>Free delivery on orders over $50</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="hover:text-red-600">Store Locator</a>
+                <a href="#" class="hover:text-red-600">Contact Us</a>
+            </div>
+        </div>
+
+        <hr/>
+
+        <!-- Main Header -->
+        <div class="flex justify-between items-center py-4">
+            <!-- Logo -->
+            <a href="{% url 'store:home' %}" class="text-3xl font-bold text-red-600">LuxeThreads</a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center space-x-6 font-semibold">
+                <a href="{% url 'store:product_list' %}?gender=Women"
+                   class="hover:text-red-600 transition-colors">Women</a>
+                <a href="{% url 'store:product_list' %}?gender=Men" class="hover:text-red-600 transition-colors">Men</a>
+                <a href="{% url 'store:product_list' %}?category_slug=accessories"
+                   class="hover:text-red-600 transition-colors">Accessories</a>
+                <a href="{% url 'store:product_list' %}?is_new=true"
+                   class="text-green-600 hover:text-green-700 transition-colors">New In</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center space-x-4">
+                <!-- Search Form -->
+                <form method="GET" action="{% url 'store:product_list' %}" class="hidden md:block relative">
+                    <input type="text"
+                           name="q"
+                           placeholder="Search..."
+                           value="{{ request.GET.q }}"
+                           class="border rounded-full py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-red-300">
+                    <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+                {% if user.is_authenticated %}
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{% url 'accounts:profile' %}" class="hover:text-red-600 flex items-center space-x-2">
+                        <i class="fa fa-user text-xl"></i>
+                        <span>{{ user.first_name|default:user.email }}</span>
+                    </a>
+                    <form method="POST" action="{% url 'accounts:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="hover:text-red-600">Logout</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{% url 'accounts:login' %}" class="hover:text-red-600">Login</a>
+                    <a href="{% url 'accounts:register' %}"
+                       class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">Register</a>
+                </div>
+                {% endif %}
+
+                <!-- Cart with HTMX updates -->
+                <a href="{% url 'cart:cart_detail' %}" class="relative hover:text-red-600" id="cart-link">
+                    <i class="fa fa-shopping-bag text-xl"></i>
+                    {% with cart_item_count=request.cart|length %}
+                    {% if cart_item_count > 0 %}
+                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                          id="cart-count">
+              {{ cart_item_count }}
+            </span>
+                    {% else %}
+                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden"
+                          id="cart-count">0</span>
+                    {% endif %}
+                    {% endwith %}
+                </a>
+
+                <button class="lg:hidden" id="mobile-menu-btn">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-white border-t hidden">
+        <nav class="flex flex-col p-4 space-y-3">
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}" class="hover:text-red-600">Profile</a>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-left hover:text-red-600 w-full">Logout</button>
+            </form>
+            {% else %}
+            <a href="{% url 'accounts:login' %}" class="hover:text-red-600">Login</a>
+            <a href="{% url 'accounts:register' %}" class="hover:text-red-600">Register</a>
+            {% endif %}
+            <hr/>
+            <a href="{% url 'store:product_list' %}?gender=Women" class="hover:text-red-600">Women</a>
+            <a href="{% url 'store:product_list' %}?gender=Men" class="hover:text-red-600">Men</a>
+            <a href="{% url 'store:product_list' %}?category_slug=accessories"
+               class="hover:text-red-600">Accessories</a>
+            <a href="{% url 'store:product_list' %}?is_new=true" class="text-green-600 hover:text-green-700">New In</a>
+            <hr/>
+            <!-- Mobile Search -->
+            <form method="GET" action="{% url 'store:product_list' %}" class="relative mt-2">
+                <input type="text"
+                       name="q"
+                       placeholder="Search..."
+                       value="{{ request.GET.q }}"
+                       class="border rounded-full py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-red-300">
+                <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </nav>
+    </div>
+</header>
+
+<script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    // HTMX: Update cart count when items are added
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        if (event.detail.target.id === 'cart-count') {
+            // Cart count was updated
+            const cartCount = document.getElementById('cart-count');
+            if (parseInt(cartCount.textContent) > 0) {
+                cartCount.classList.remove('hidden');
+            }
+        }
+    });
+</script>

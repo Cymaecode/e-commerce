@@ -1,341 +1,214 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <div class="relative w-full h-96 md:h-[500px] overflow-hidden rounded-lg shadow-lg mb-12">
-        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100">
-            <img class="w-full h-full object-cover" src="https://picsum.photos/seed/slide1/1600/600"
+    <!-- Image Slider -->
+    <div class="relative w-full h-96 md:h-[500px] overflow-hidden rounded-lg shadow-lg mb-12" id="slider">
+        <!-- Slide 1 -->
+        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100" id="slide-1">
+            <img class="w-full h-full object-cover"
+                 src="https://picsum.photos/seed/slide1/1600/600"
                  alt="Summer Collection is Here">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
                     <h1 class="text-4xl md:text-6xl font-bold">Summer Collection is Here</h1>
                     <p class="mt-4 text-lg md:text-xl">Up to 50% Off on new arrivals</p>
                     <a class="mt-8 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors"
-                       href="#/products"> Shop Now </a>
+                       href="{% url 'store:product_list' %}?is_new=true"> Shop Now </a>
                 </div>
             </div>
         </div>
-        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
-            <img class="w-full h-full object-cover" src="https://picsum.photos/seed/slide2/1600/600"
-                 alt="For Men: Sharp &amp; Stylish">
+
+        <!-- Slide 2 -->
+        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-2">
+            <img class="w-full h-full object-cover"
+                 src="https://picsum.photos/seed/slide2/1600/600"
+                 alt="For Men: Sharp & Stylish">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
-                    <h1 class="text-4xl md:text-6xl font-bold">For Men: Sharp &amp; Stylish</h1>
+                    <h1 class="text-4xl md:text-6xl font-bold">For Men: Sharp & Stylish</h1>
                     <p class="mt-4 text-lg md:text-xl">Discover our new formal wear</p>
                     <a class="mt-8 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors"
-                       href="#/products"> Shop Now </a>
+                       href="{% url 'store:product_list' %}?gender=Men"> Shop Now </a>
                 </div>
             </div>
         </div>
-        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0">
-            <img class="w-full h-full object-cover" src="https://picsum.photos/seed/slide3/1600/600"
+
+        <!-- Slide 3 -->
+        <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-3">
+            <img class="w-full h-full object-cover"
+                 src="https://picsum.photos/seed/slide3/1600/600"
                  alt="Accessorize Your Look">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
                     <h1 class="text-4xl md:text-6xl font-bold">Accessorize Your Look</h1>
                     <p class="mt-4 text-lg md:text-xl">Bags, watches, and more</p>
                     <a class="mt-8 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors"
-                       href="#/products"> Shop Now </a>
+                       href="{% url 'store:product_list' %}?category_slug=accessories"> Shop Now </a>
                 </div>
             </div>
         </div>
-        <button class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-3 rounded-full text-gray-800 focus:outline-none">
+
+        <!-- Navigation Buttons -->
+        <button class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-3 rounded-full text-gray-800 focus:outline-none"
+                onclick="prevSlide()">
             <i class="fa fa-chevron-left"></i>
         </button>
-        <button class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-3 rounded-full text-gray-800 focus:outline-none">
-            <i class="fa fa-chevron-right"></i></button>
+        <button class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 hover:bg-white/80 p-3 rounded-full text-gray-800 focus:outline-none"
+                onclick="nextSlide()">
+            <i class="fa fa-chevron-right"></i>
+        </button>
+
+        <!-- Slide Indicators -->
         <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-            <button class="h-3 w-3 rounded-full transition-colors bg-white"></button>
-            <button class="h-3 w-3 rounded-full transition-colors bg-white/50"></button>
-            <button class="h-3 w-3 rounded-full transition-colors bg-white/50"></button>
+            <button class="h-3 w-3 rounded-full transition-colors bg-white" onclick="goToSlide(0)"></button>
+            <button class="h-3 w-3 rounded-full transition-colors bg-white/50" onclick="goToSlide(1)"></button>
+            <button class="h-3 w-3 rounded-full transition-colors bg-white/50" onclick="goToSlide(2)"></button>
         </div>
     </div>
+
+    <!-- Category Section -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold text-center mb-8">Shop by Category</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <a routerlink="/products"
-               class="relative rounded-lg overflow-hidden group h-64"
-               href="#/products?category=Jackets">
-                <img
-                        src="https://picsum.photos/seed/cat1/500/500"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            <!-- Jackets Category -->
+            <a href="{% url 'store:product_list_by_category' 'jackets' %}"
+               class="relative rounded-lg overflow-hidden group h-64">
+                <img src="https://picsum.photos/seed/cat1/500/500"
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                     alt="Jackets">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3
-                            class="text-white text-2xl font-bold">Jackets</h3>
+                    <h3 class="text-white text-2xl font-bold">Jackets</h3>
                 </div>
             </a>
-            <a routerlink="/products" class="relative rounded-lg overflow-hidden group h-64"
-               href="#/products?category=Dresses">
+
+            <!-- Dresses Category -->
+            <a href="{% url 'store:product_list_by_category' 'dresses' %}"
+               class="relative rounded-lg overflow-hidden group h-64">
                 <img src="https://picsum.photos/seed/cat2/500/500"
-                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                     alt="Dresses">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3
-                            class="text-white text-2xl font-bold">Dresses</h3>
+                    <h3 class="text-white text-2xl font-bold">Dresses</h3>
                 </div>
             </a>
-            <a routerlink="/products" class="relative rounded-lg overflow-hidden group h-64"
-               href="#/products?category=Shoes">
+
+            <!-- Shoes Category -->
+            <a href="{% url 'store:product_list_by_category' 'shoes' %}"
+               class="relative rounded-lg overflow-hidden group h-64">
                 <img src="https://picsum.photos/seed/cat3/500/500"
-                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                     alt="Shoes">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3
-                            class="text-white text-2xl font-bold">Shoes</h3>
+                    <h3 class="text-white text-2xl font-bold">Shoes</h3>
                 </div>
             </a>
-            <a routerlink="/products" class="relative rounded-lg overflow-hidden group h-64"
-               href="#/products?category=Accessories">
+
+            <!-- Accessories Category -->
+            <a href="{% url 'store:product_list_by_category' 'accessories' %}"
+               class="relative rounded-lg overflow-hidden group h-64">
                 <img src="https://picsum.photos/seed/cat4/500/500"
-                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                     alt="Accessories">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                    <h3
-                            class="text-white text-2xl font-bold">Accessories</h3>
+                    <h3 class="text-white text-2xl font-bold">Accessories</h3>
                 </div>
             </a>
         </div>
     </section>
+
+    <!-- Featured Products Section -->
     <section>
         <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/1">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product1/600/800"
-                                 alt="Classic Denim Jacket"><span
-                                class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded"> -20% </span>
-                            <!--container--><span
-                                class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded"> NEW </span>
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
+            {% if featured_products %}
+            {% for product in featured_products %}
+            <div class="block group">
+                {% include 'components/_product_card.html' with product=product %}
+            </div>
+            {% endfor %}
+            {% else %}
+            <!-- Show placeholder products if no featured products in database -->
+            {% for i in "12345678" %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
+                <a href="#" class="block">
+                    <div class="relative">
+                        <img class="w-full h-80 object-cover"
+                             src="https://picsum.photos/seed/product{{ i }}/600/800"
+                             alt="Product {{ i }}">
+                        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            View Details
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">
-                                Jackets - Men
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Classic Denim
-                                Jacket
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$79.99</p>
-                                <p class="text-sm text-gray-400 line-through ml-2">$99.99</p>
-                                <!--container-->
-                            </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-sm font-semibold text-gray-500 truncate">
+                            Category - Gender
+                        </h3>
+                        <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Product Name</h2>
+                        <div class="flex items-baseline mt-2">
+                            <p class="text-xl font-bold text-red-600">$99.99</p>
                         </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/2">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product2/600/800"
-                                 alt="Flowy Summer Dress"><!--container-->
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">
-                                Dresses - Women
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Flowy Summer
-                                Dress
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$49.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/3">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product3/600/800"
-                                 alt="Leather Ankle Boots"><span
-                                class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded"> -19% </span>
-                            <!--container--><!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">Shoes
-                                - Women
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Leather Ankle
-                                Boots
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$129.99</p>
-                                <p class="text-sm text-gray-400 line-through ml-2">$159.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/4">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product4/600/800"
-                                 alt="Graphic Print T-Shirt"><!--container-->
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">
-                                T-Shirts - Unisex
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Graphic Print
-                                T-Shirt
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$24.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/5">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product5/600/800"
-                                 alt="Slim Fit Chinos"><!--container-->
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">Pants
-                                - Men
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Slim Fit
-                                Chinos
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$59.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/6">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product6/600/800"
-                                 alt="Cashmere Scarf"><span
-                                class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded"> -18% </span>
-                            <!--container--><!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">
-                                Accessories - Unisex
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Cashmere
-                                Scarf
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$89.99</p>
-                                <p class="text-sm text-gray-400 line-through ml-2">$110.00</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/7">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product7/600/800"
-                                 alt="High-Waisted Jeans"><!--container-->
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">Jeans
-                                - Women
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">High-Waisted
-                                Jeans
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$69.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!--container-->
-            </app-product-card>
-            <app-product-card class="block group">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl">
-                    <a class="block" href="#/product/8">
-                        <div class="relative">
-                            <img class="w-full h-80 object-cover"
-                                 src="https://picsum.photos/seed/product8/600/800"
-                                 alt="Minimalist Wristwatch"><!--container--><span
-                                class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded"> NEW </span>
-                            <!--container-->
-                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-40 text-white text-center py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                View Details
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-sm font-semibold text-gray-500 truncate">
-                                Accessories - Men
-                            </h3>
-                            <h2 class="text-lg font-bold text-gray-800 truncate mt-1">Minimalist
-                                Wristwatch
-                            </h2>
-                            <div class="flex items-baseline mt-2">
-                                <p
-                                        class="text-xl font-bold text-red-600">$199.99</p>
-                                <!--container-->
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </app-product-card>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
     </section>
 </div>
+
+<script>
+    // Slider functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('[id^="slide-"]');
+    const indicators = document.querySelectorAll('#slider .absolute.bottom-4 button');
+
+    function showSlide(n) {
+        // Hide all slides
+        slides.forEach(slide => {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+        });
+
+        // Show current slide
+        slides[n].classList.remove('opacity-0');
+        slides[n].classList.add('opacity-100');
+
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            if (index === n) {
+                indicator.classList.remove('bg-white/50');
+                indicator.classList.add('bg-white');
+            } else {
+                indicator.classList.remove('bg-white');
+                indicator.classList.add('bg-white/50');
+            }
+        });
+
+        currentSlide = n;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function goToSlide(n) {
+        showSlide(n);
+    }
+
+    // Auto-rotate slides every 5 seconds
+    setInterval(nextSlide, 5000);
+
+    // Initialize slider
+    document.addEventListener('DOMContentLoaded', function() {
+        showSlide(0);
+    });
+</script>
 {% endblock %}
