@@ -1,10 +1,285 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Order Create</title>
-</head>
-<body>
-<h1>Order Create Works</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout - COVE{% endblock %}
+
+{% block content %}
+<div class="bg-gray-100 min-h-[calc(100vh-200px)] py-8">
+  <div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold text-gray-800 mb-8">Checkout</h1>
+
+    {% if cart_items %}
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Shipping and Payment Form -->
+      <div class="lg:w-2/3">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-6">Shipping Information</h2>
+
+          <form method="POST" action="{% url 'orders:order_create' %}" id="checkout-form">
+            {% csrf_token %}
+
+            <!-- Personal Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_first_name">
+                  First Name
+                </label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.first_name.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_last_name">
+                  Last Name
+                </label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.last_name.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_email">
+                  Email
+                </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.email.errors.0 }}</p>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="id_address">
+                Address
+              </label>
+              {{ form.address }}
+              {% if form.address.errors %}
+              <p class="text-red-500 text-xs italic mt-1">{{ form.address.errors.0 }}</p>
+              {% endif %}
+            </div>
+
+            <!-- City, State, Postal Code, Country -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_city">
+                  City
+                </label>
+                {{ form.city }}
+                {% if form.city.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.city.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_state">
+                  State / Province
+                </label>
+                {{ form.state }}
+                {% if form.state.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.state.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_postal_code">
+                  Zip / Postal Code
+                </label>
+                {{ form.postal_code }}
+                {% if form.postal_code.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.postal_code.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_country">
+                  Country
+                </label>
+                {{ form.country }}
+                {% if form.country.errors %}
+                <p class="text-red-500 text-xs italic mt-1">{{ form.country.errors.0 }}</p>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="mb-6">
+              <h2 class="text-xl font-semibold mb-4">Payment Details</h2>
+              <div class="p-4 bg-gray-50 rounded-md">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_payment_method">
+                  Payment Method
+                </label>
+                {{ form.payment_method }}
+                <p class="text-gray-600 text-sm mt-2">
+                  <i class="fa fa-lock mr-1"></i> Secure payment processing
+                </p>
+              </div>
+            </div>
+
+            <!-- Hidden submit button for HTMX -->
+            <button type="submit" class="hidden" id="submit-order"></button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="lg:w-1/3">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+          <h2 class="text-xl font-semibold mb-6">Your Order</h2>
+
+          <div class="space-y-4 mb-6">
+            {% for item in cart_items %}
+            <div class="flex justify-between items-center">
+              <div class="flex items-center">
+                {% if item.product.image %}
+                <img src="{{ item.product.image.url }}"
+                     class="w-16 h-16 rounded object-cover mr-4"
+                     alt="{{ item.product.name }}">
+                {% else %}
+                <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center mr-4">
+                  <i class="fa fa-image text-gray-400"></i>
+                </div>
+                {% endif %}
+                <div>
+                  <p class="font-semibold">{{ item.product.name }}</p>
+                  <p class="text-sm text-gray-500">
+                    Qty: {{ item.quantity }}
+                    {% if item.size or item.color %}
+                    <br>
+                    <small>
+                      {% if item.size %}{{ item.size }}{% endif %}
+                      {% if item.size and item.color %} / {% endif %}
+                      {% if item.color %}{{ item.color }}{% endif %}
+                    </small>
+                    {% endif %}
+                  </p>
+                </div>
+              </div>
+              <p class="font-semibold">${{ item.total_price|floatformat:2 }}</p>
+            </div>
+            {% endfor %}
+          </div>
+
+          <hr class="my-4">
+
+          <div class="space-y-2 mb-6">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Subtotal</span>
+              <span class="font-semibold">${{ cart.get_total_price|floatformat:2 }}</span>
+            </div>
+
+            <div class="flex justify-between">
+              <span class="text-gray-600">Shipping</span>
+              <span class="font-semibold text-green-600">FREE</span>
+            </div>
+
+            <div class="flex justify-between text-lg font-bold pt-4 border-t">
+              <span>Total</span>
+              <span>${{ cart.get_total_price|floatformat:2 }}</span>
+            </div>
+          </div>
+
+          <!-- Place Order Button -->
+          <button type="button"
+                  onclick="submitOrder()"
+                  class="w-full bg-red-600 text-white font-bold py-3 px-6 rounded-lg mt-4 hover:bg-red-700 transition-colors">
+            Place Order
+          </button>
+
+          <!-- Continue Shopping -->
+          <a href="{% url 'cart:cart_detail' %}"
+             class="block text-center w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg mt-4 hover:bg-gray-50 transition-colors">
+            Back to Cart
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <!-- Empty Cart -->
+    <div class="text-center py-20 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
+      <p class="text-gray-500 mb-6">Cannot proceed to checkout without items.</p>
+      <a href="{% url 'store:product_list' %}"
+         class="bg-red-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-red-700 transition-colors">
+        Return to Shop
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Order Success Modal (hidden by default) -->
+<div id="order-success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+  <div class="bg-white rounded-lg shadow-xl p-8 max-w-md mx-4">
+    <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+        <i class="fa fa-check text-green-600 text-2xl"></i>
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Order Placed Successfully!</h2>
+      <p class="text-gray-600 mb-6">Thank you for your purchase. Your order has been received.</p>
+    </div>
+    <div class="text-center">
+      <a href="{% url 'store:home' %}"
+         class="bg-red-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-red-700 transition-colors">
+        Continue Shopping
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Handle order submission with HTMX
+function submitOrder() {
+    const form = document.getElementById('checkout-form');
+    const submitBtn = document.getElementById('submit-order');
+
+    // Submit form via HTMX
+    htmx.ajax('POST', form.action, {
+        values: htmx.values(form),
+        target: '#order-success-modal',
+        swap: 'innerHTML'
+    }).then(function(response) {
+        if (response.status === 200) {
+            // Show success modal
+            document.getElementById('order-success-modal').classList.remove('hidden');
+            document.getElementById('order-success-modal').classList.add('flex');
+
+            // Clear cart from session (optional)
+            setTimeout(function() {
+                window.location.href = "{% url 'store:home' %}";
+            }, 3000);
+        }
+    });
+}
+
+// Initialize form styling
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Tailwind classes to form inputs
+    const inputs = document.querySelectorAll('#checkout-form input, #checkout-form select, #checkout-form textarea');
+    inputs.forEach(input => {
+        input.classList.add('w-full', 'border', 'rounded-md', 'px-3', 'py-2', 'focus:outline-none', 'focus:ring-2', 'focus:ring-red-300');
+    });
+});
+</script>
+
+<style>
+/* Add some custom styles for better form appearance */
+#checkout-form input:focus,
+#checkout-form select:focus,
+#checkout-form textarea:focus {
+    border-color: #f87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1);
+}
+
+/* Style form errors */
+.errorlist {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+</style>
+{% endblock %}

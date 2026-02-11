@@ -42,25 +42,49 @@ class Cart:
 
     def __iter__(self):
         # Get all product IDs from cart
-        product_ids = [item["product_id"] for item in self.cart.values()]
+        product_ids = []
+        for item in self.cart.values():
+            product_ids.append(item['product_id'])
 
-        # Fetch all product at once for efficiency
-        products = Product.objects.filter(id__in = product_ids)
-        products_dict = {str(p.id): p for p in products}
+        # Fetch all products at once for efficiency
+        products = Product.objects.filter(id__in=product_ids)
+        product_dict = {str(p.id): p for p in products}
 
-        # yield cart items with product  objects
+        # Yield cart items with product objects
         for item_key, item in self.cart.items():
-            product = products_dict.get(item["product_id"])
+            product = product_dict.get(item['product_id'])
             if product:
                 yield {
-                    "product": product,
-                    "quantity": item["quantity"],
-                    "price": Decimal(item["price"]),
-                    "total_price": Decimal(item["price"]) * item["quantity"],
-                    "size": item.get("size", ""),
-                    "color": item.get("color", ""),
-                    "item_key": item_key,
+                    'product': product,
+                    'quantity': item['quantity'],
+                    'price': Decimal(item['price']),
+                    'total_price': Decimal(item['price']) * item['quantity'],
+                    'size': item.get('size', ''),
+                    'color': item.get('color', ''),
+                    'item_key': item_key,
                 }
+
+    # def __iter__(self):
+    #     # Get all product IDs from cart
+    #     product_ids = [item["product_id"] for item in self.cart.values()]
+    #
+    #     # Fetch all product at once for efficiency
+    #     products = Product.objects.filter(id__in = product_ids)
+    #     products_dict = {str(p.id): p for p in products}
+    #
+    #     # yield cart items with product  objects
+    #     for item_key, item in self.cart.items():
+    #         product = products_dict.get(item["product_id"])
+    #         if product:
+    #             yield {
+    #                 "product": product,
+    #                 "quantity": item["quantity"],
+    #                 "price": Decimal(item["price"]),
+    #                 "total_price": Decimal(item["price"]) * item["quantity"],
+    #                 "size": item.get("size", ""),
+    #                 "color": item.get("color", ""),
+    #                 "item_key": item_key,
+    #             }
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
