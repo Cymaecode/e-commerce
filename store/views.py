@@ -28,8 +28,9 @@ def product_list(request, category_slug = None):
     # Get filter parameters
     gender = request.GET.get("gender", "all")
     price_max = request.GET.get("price_max")
-    sort_by = request.GET.get("sort_by", "default")
+    sort = request.GET.get("sort", "name")
     search_query = request.GET.get("q", "")
+
     is_new = request.GET.get("is_new")
 
     # Apply category filter
@@ -49,6 +50,10 @@ def product_list(request, category_slug = None):
         except ValueError:
             pass
 
+    # Apply new product filter
+    if is_new == "true":
+        products = products.filter(is_new = True)
+
     # Apply search
     if search_query:
         products = products.filter(
@@ -57,27 +62,14 @@ def product_list(request, category_slug = None):
         )
 
     # Apply sorting
-    if sort_by == "newest":
-        products = products.order_by("-created")
-    elif sort_by == "price-asc":
-        products = products.order_by("price")
-    elif sort_by == "price-desc":
-        products = products.order_by("-price")
-    else:
-        products = products.order_by("name")
+    if sort:
+        products = products.order_by(sort)
 
-    # Apply new product filter
-    if is_new == "true":
-        products = products.filter(is_new = True)
 
     context = {
         "category": category,
         "categories": categories,
         "products": products,
-        "current_gender": gender,
-        "current_price_max": price_max or 500,
-        "current_sort": sort_by,
-        "search_query": search_query,
     }
 
     # htmx partial response for dynamic updates
@@ -88,11 +80,9 @@ def product_list(request, category_slug = None):
 
 
 def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug, available=True)
-    cart_product_form = CartAddProductForm()
+    product = get_object_or_404(Product, id = id, slug = slug, available = True)
 
     context = {
         'product': product,
-        'cart_product_form': cart_product_form,
     }
-    return render(request, 'shop/product/detail.html', context)
+    return render(request, "store/product_detail.html", context)

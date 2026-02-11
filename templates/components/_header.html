@@ -16,7 +16,7 @@
         <!-- Main Header -->
         <div class="flex justify-between items-center py-4">
             <!-- Logo -->
-            <a href="{% url 'store:home' %}" class="text-3xl font-bold text-red-600">LuxeThreads</a>
+            <a href="{% url 'store:home' %}" class="text-3xl font-bold text-red-600">COVE</a>
 
             <!-- Desktop Navigation -->
             <nav class="hidden lg:flex items-center space-x-6 font-semibold">
@@ -65,17 +65,11 @@
                 <!-- Cart with HTMX updates -->
                 <a href="{% url 'cart:cart_detail' %}" class="relative hover:text-red-600" id="cart-link">
                     <i class="fa fa-shopping-bag text-xl"></i>
-                    {% with cart_item_count=request.cart|length %}
-                    {% if cart_item_count > 0 %}
-                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-                          id="cart-count">
-              {{ cart_item_count }}
-            </span>
-                    {% else %}
-                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden"
-                          id="cart-count">0</span>
-                    {% endif %}
-                    {% endwith %}
+                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center" id="cart-count">
+                        {% with cart_item_count=cart|length %}
+                            {{ cart_item_count|default:0 }}
+                        {% endwith %}
+                    </span>
                 </a>
 
                 <button class="lg:hidden" id="mobile-menu-btn">

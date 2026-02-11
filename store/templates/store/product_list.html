@@ -3,9 +3,9 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
-    <div class="flex">
-        <!-- Filter Sidebar (Desktop) -->
-        <aside class="hidden lg:block w-1/4 pr-8">
+    <div class="flex flex-col lg:flex-row">
+        <!-- Filter Sidebar -->
+        <aside class="lg:w-1/4 pr-8 mb-8 lg:mb-0">
             <div class="sticky top-24">
                 <h2 class="text-2xl font-bold mb-4">Filters</h2>
 
@@ -13,53 +13,39 @@
                 <div class="mb-6">
                     <h3 class="font-semibold mb-2">Category</h3>
                     <div class="space-y-2">
-                        <button hx-get="{% url 'store:product_list' %}"
-                                hx-target="#product-grid"
-                                hx-vals='{"gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
-                                name="category"
-                                value=""
-                                class="block w-full text-left hover:text-red-600 {% if not category %}font-bold text-red-600{% endif %}">
+                        <a href="{% url 'store:product_list' %}"
+                           class="block w-full text-left hover:text-red-600 {% if not category %}font-bold text-red-600{% endif %}">
                             All
-                        </button>
+                        </a>
                         {% for cat in categories %}
-                        <button hx-get="{% url 'store:product_list' %}"
-                                hx-target="#product-grid"
-                                hx-vals='{"gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
-                                name="category_slug"
-                                value="{{ cat.slug }}"
-                                class="block w-full text-left hover:text-red-600 {% if category and category.slug == cat.slug %}font-bold text-red-600{% endif %}">
+                        <a href="{% url 'store:product_list_by_category' cat.slug %}"
+                           class="block w-full text-left hover:text-red-600 {% if category and category.slug == cat.slug %}font-bold text-red-600{% endif %}">
                             {{ cat.name }}
-                        </button>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- Gender Filter -->
+                <!-- Gender Filter with HTMX -->
                 <div class="mb-6">
                     <h3 class="font-semibold mb-2">Gender</h3>
                     <div class="space-y-2">
-                        <button hx-get="{% url 'store:product_list' %}"
+                        <button hx-get="{% url 'store:product_list' %}{% if category %}?category_slug={{ category.slug }}{% endif %}"
                                 hx-target="#product-grid"
-                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
-                                name="gender"
-                                value="all"
-                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'all' %}font-bold text-red-600{% endif %}">
+                                hx-push-url="true"
+                                class="block w-full text-left hover:text-red-600 {% if not request.GET.gender or request.GET.gender == 'all' %}font-bold text-red-600{% endif %}">
                             All
                         </button>
-                        <button hx-get="{% url 'store:product_list' %}"
+                        <button hx-get="{% url 'store:product_list' %}?gender=Men{% if category %}&category_slug={{ category.slug }}{% endif %}"
                                 hx-target="#product-grid"
-                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
-                                name="gender"
-                                value="Men"
-                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'Men' %}font-bold text-red-600{% endif %}">
+                                hx-push-url="true"
+                                class="block w-full text-left hover:text-red-600 {% if request.GET.gender == 'Men' %}font-bold text-red-600{% endif %}">
                             Men
                         </button>
-                        <button hx-get="{% url 'store:product_list' %}"
+                        <button hx-get="{% url 'store:product_list' %}?gender=Women{% if category %}&category_slug={{ category.slug }}{% endif %}"
                                 hx-target="#product-grid"
-                                hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "price_max": "{{ current_price_max }}", "sort_by": "{{ current_sort }}"}'
-                                name="gender"
-                                value="Women"
-                                class="block w-full text-left hover:text-red-600 {% if current_gender == 'Women' %}font-bold text-red-600{% endif %}">
+                                hx-push-url="true"
+                                class="block w-full text-left hover:text-red-600 {% if request.GET.gender == 'Women' %}font-bold text-red-600{% endif %}">
                             Women
                         </button>
                     </div>
@@ -71,19 +57,16 @@
                     <input type="range"
                            min="0"
                            max="500"
-                           value="{{ current_price_max }}"
-                           name="price_max"
-                           hx-get="{% url 'store:product_list' %}"
-                           hx-target="#product-grid"
-                           hx-trigger="change, input delay:500ms"
-                           hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "gender": "{{ current_gender }}", "sort_by": "{{ current_sort }}"}'
+                           value="{{ request.GET.price_max|default:'500' }}"
+                           oninput="document.getElementById('price-value').textContent = this.value"
+                           onchange="applyPriceFilter(this.value)"
                            class="w-full">
-                    <div class="text-sm text-gray-600 text-center mt-1">Up to $<span id="price-value">{{ current_price_max }}</span>
+                    <div class="text-sm text-gray-600 text-center mt-1">
+                        Up to $<span id="price-value">{{ request.GET.price_max|default:'500' }}</span>
                     </div>
                 </div>
 
-                <button hx-get="{% url 'store:product_list' %}"
-                        hx-target="#product-grid"
+                <button onclick="resetFilters()"
                         class="w-full bg-gray-700 text-white py-2 rounded-md hover:bg-gray-800 transition-colors">
                     Reset Filters
                 </button>
@@ -91,81 +74,118 @@
         </aside>
 
         <!-- Product Grid -->
-        <main class="w-full lg:w-3/4">
+        <main class="lg:w-3/4">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold">
-                    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+                    {% if category %}{{ category.name }}{% else %}All Products{% endif %}
+                    {% if request.GET.gender and request.GET.gender != 'all' %}
+                    - {{ request.GET.gender }}
+                    {% endif %}
                 </h1>
                 <div class="flex items-center space-x-4">
-                    <button id="mobile-filter-btn" class="lg:hidden bg-gray-200 px-4 py-2 rounded-md">
-                        <i class="fa fa-filter mr-2"></i> Filters
-                    </button>
-                    <select name="sort_by"
-                            hx-get="{% url 'store:product_list' %}"
-                            hx-target="#product-grid"
-                            hx-trigger="change"
-                            hx-vals='{"category_slug": "{% if category %}{{ category.slug }}{% endif %}", "gender": "{{ current_gender }}", "price_max": "{{ current_price_max }}"}'
+                    <select onchange="applySort(this.value)"
                             class="border rounded-md px-4 py-2">
-                        <option value="default" {% if current_sort==
-                        'default' %}selected{% endif %}>Default</option>
-                        <option value="newest" {% if current_sort==
-                        'newest' %}selected{% endif %}>Newest</option>
-                        <option value="price-asc" {% if current_sort==
-                        'price-asc' %}selected{% endif %}>Price: Low to High</option>
-                        <option value="price-desc" {% if current_sort==
-                        'price-desc' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="">Sort by</option>
+                        <option value="name" {% if request.GET.sort == 'name' %}selected{% endif %}>Name A-Z</option>
+                        <option value="-name" {% if request.GET.sort == '-name' %}selected{% endif %}>Name Z-A</option>
+                        <option value="price" {% if request.GET.sort == 'price' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="-price" {% if request.GET.sort == '-price' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="-created" {% if request.GET.sort == '-created' %}selected{% endif %}>Newest</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Products will be loaded here -->
-            <div id="product-container">
-                {% include 'store/partials/_product_listing.html' %}
+            <!-- Search Form -->
+            <form method="GET" action="." class="mb-6">
+                <div class="relative">
+                    <input type="text"
+                           name="q"
+                           placeholder="Search products..."
+                           value="{{ request.GET.q }}"
+                           class="w-full border rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-300">
+                    <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Products Grid -->
+            <div id="product-grid">
+                {% if products %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for product in products %}
+                    <div>
+                        {% include 'components/_product_card.html' with product=product %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if not products %}
+                <div class="col-span-full text-center py-16">
+                    <p class="text-xl text-gray-500">No products found.</p>
+                    <a href="{% url 'store:product_list' %}"
+                       class="mt-4 inline-block bg-red-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-700 transition-colors">
+                        View All Products
+                    </a>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="col-span-full text-center py-16">
+                    <p class="text-xl text-gray-500">Loading products...</p>
+                </div>
+                {% endif %}
             </div>
         </main>
-    </div>
-
-    <!-- Mobile Filter Sidebar -->
-    <div id="mobile-filter-sidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
-         onclick="closeMobileFilters()"></div>
-    <div id="mobile-filter-panel"
-         class="fixed top-0 left-0 w-80 h-full bg-white shadow-xl z-50 p-6 overflow-y-auto transform -translate-x-full transition-transform duration-300">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Filters</h2>
-            <button onclick="closeMobileFilters()"><i class="fa fa-times text-2xl"></i></button>
-        </div>
-        <div class="space-y-6">
-            <!-- Mobile filters content (same as desktop but with hx attributes) -->
-            <div>
-                <h3 class="font-semibold mb-2">Category</h3>
-                <div class="space-y-2">
-                    {% include 'store/partials/_mobile_filter_buttons.html' %}
-                </div>
-            </div>
-        </div>
-        <button onclick="applyMobileFilters(); closeMobileFilters();"
-                class="mt-8 w-full bg-gray-700 text-white py-3 rounded-md hover:bg-gray-800 transition-colors">
-            Apply Filters & Close
-        </button>
     </div>
 </div>
 
 <script>
-    // Mobile filter functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileFilterBtn = document.getElementById('mobile-filter-btn');
-        const mobileFilterSidebar = document.getElementById('mobile-filter-sidebar');
-        const mobileFilterPanel = document.getElementById('mobile-filter-panel');
+    // HTMX Filter Functions
+    function applyGenderFilter(gender) {
+        const baseUrl = "{% url 'store:product_list' %}";
+        const category = "{% if category %}{{ category.slug }}{% endif %}";
+        const params = new URLSearchParams();
 
-        if (mobileFilterBtn) {
-            mobileFilterBtn.addEventListener('click', function() {
-                mobileFilterSidebar.classList.remove('hidden');
-                mobileFilterPanel.classList.remove('-translate-x-full');
-            });
+        if (gender && gender !== 'all') params.append('gender', gender);
+        if (category) params.append('category_slug', category);
+
+        htmx.ajax('GET', `${baseUrl}?${params.toString()}`, {target: '#product-grid', swap: 'innerHTML'});
+    }
+
+    function applyPriceFilter(price) {
+        const baseUrl = "{% url 'store:product_list' %}";
+        const params = new URLSearchParams(window.location.search);
+        params.set('price_max', price);
+
+        htmx.ajax('GET', `${baseUrl}?${params.toString()}`, {target: '#product-grid', swap: 'innerHTML'});
+    }
+
+    function applySort(sortValue) {
+        if (!sortValue) return;
+
+        const baseUrl = "{% url 'store:product_list' %}";
+        const params = new URLSearchParams(window.location.search);
+        params.set('sort', sortValue);
+
+        htmx.ajax('GET', `${baseUrl}?${params.toString()}`, {target: '#product-grid', swap: 'innerHTML'});
+    }
+
+    function resetFilters() {
+        const baseUrl = "{% url 'store:product_list' %}";
+        const category = "{% if category %}{{ category.slug }}{% endif %}";
+
+        if (category) {
+            htmx.ajax('GET', `${baseUrl}?category_slug=${category}`, {target: '#product-grid', swap: 'innerHTML'});
+        } else {
+            htmx.ajax('GET', baseUrl, {target: '#product-grid', swap: 'innerHTML'});
         }
+    }
 
+    // Initialize HTMX
+    document.addEventListener('DOMContentLoaded', function() {
         // Update price display
-        const priceSlider = document.querySelector('input[name="price_max"]');
+        const priceSlider = document.querySelector('input[type="range"]');
         const priceValue = document.getElementById('price-value');
 
         if (priceSlider && priceValue) {
@@ -174,15 +194,5 @@
             });
         }
     });
-
-    function closeMobileFilters() {
-        document.getElementById('mobile-filter-sidebar').classList.add('hidden');
-        document.getElementById('mobile-filter-panel').classList.add('-translate-x-full');
-    }
-
-    function applyMobileFilters() {
-        // Collect all mobile filter values and trigger HTMX request
-        htmx.trigger('#product-container', 'updateFilters');
-    }
 </script>
 {% endblock %}

@@ -1,18 +1,94 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart - COVE{% endblock %}
+
 {% block content %}
 <div class="bg-gray-100 min-h-[calc(100vh-200px)] py-8">
-    <div class="container mx-auto px-4">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Shopping Cart</h1>
-        <div class="text-center py-20 bg-white rounded-lg shadow-md">
-            <i class="fa fa-shopping-bag text-6xl text-gray-300 mb-4"></i>
-            <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
-            <p class="text-gray-500 mb-6">
-                Looks like you haven't added anything to your cart yet.
-            </p>
-            <a routerlink="/products"
-               class="bg-red-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-red-700 transition-colors"
-               href="#/products"> Start Shopping </a>
+  <div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">Shopping Cart</h1>
+
+    {% if cart_items %}
+      <div class="flex flex-col md:flex-row gap-8">
+        <!-- Cart Items -->
+        <div class="md:w-3/4">
+          <div class="bg-white rounded-lg shadow-md p-6 mb-4" id="cart-items-container">
+            {% include 'cart/partials/_cart_items.html' %}
+          </div>
         </div>
-    </div>
+
+        <!-- Order Summary -->
+        <div class="md:w-1/4">
+          <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+            <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
+            <div class="flex justify-between mb-2">
+              <span>Subtotal</span>
+              <span>${{ total_price|floatformat:2 }}</span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Shipping</span>
+              <span>Free</span>
+            </div>
+            <hr class="my-2">
+            <div class="flex justify-between font-bold text-lg">
+              <span>Total</span>
+              <span>${{ total_price|floatformat:2 }}</span>
+            </div>
+            <a href="{% url 'orders:order_create' %}"
+               class="block text-center w-full bg-red-600 text-white py-3 px-4 rounded-lg mt-6 hover:bg-red-700 transition-colors">
+              Proceed to Checkout
+            </a>
+
+            <!-- Continue Shopping -->
+            <a href="{% url 'store:product_list' %}"
+               class="block text-center w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg mt-4 hover:bg-gray-50 transition-colors">
+              Continue Shopping
+            </a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <!-- Empty Cart -->
+      <div class="text-center py-20 bg-white rounded-lg shadow-md">
+        <i class="fa fa-shopping-bag text-6xl text-gray-300 mb-4"></i>
+        <h2 class="text-2xl font-bold mb-2">Your cart is empty</h2>
+        <p class="text-gray-500 mb-6">Looks like you haven't added anything to your cart yet.</p>
+        <a href="{% url 'store:product_list' %}"
+           class="bg-red-600 text-white font-semibold py-3 px-8 rounded-md hover:bg-red-700 transition-colors">
+          Start Shopping
+        </a>
+      </div>
+    {% endif %}
+  </div>
 </div>
+
+<script>
+// HTMX: Update cart count when items change
+document.body.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target.id === 'cart-items' || event.detail.target.id === 'cart-items-container') {
+        // Update cart count in header
+        htmx.ajax('GET', '{% url "cart:cart_detail" %}', {
+            target: '#cart-count',
+            swap: 'innerHTML',
+            headers: {'X-Update-Count': 'true'}
+        });
+
+        // Show notification
+        showNotification('Cart updated', 'info');
+    }
+});
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
+    notification.textContent = message;
+    notification.id = 'notification';
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+</script>
 {% endblock %}

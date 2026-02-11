@@ -1,0 +1,17 @@
+{% if products %}
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+    {% for product in products %}
+    <div>
+        {% include 'components/_product_card.html' with product=product %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="col-span-full text-center py-16">
+    <p class="text-xl text-gray-500">No products match your filters.</p>
+    <button onclick="resetFilters()"
+            class="mt-4 bg-red-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-700 transition-colors">
+        Clear Filters
+    </button>
+</div>
+{% endif %}

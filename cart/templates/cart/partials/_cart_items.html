@@ -1,0 +1,91 @@
+<!-- cart/templates/cart/partials/_cart_items.html -->
+<table class="w-full" id="cart-items">
+  <thead>
+    <tr class="border-b">
+      <th class="text-left font-semibold py-2">Product</th>
+      <th class="text-left font-semibold py-2">Price</th>
+      <th class="text-left font-semibold py-2">Quantity</th>
+      <th class="text-left font-semibold py-2">Total</th>
+      <th class="text-left font-semibold py-2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr class="border-b" id="cart-item-{{ item.product.id }}-{{ item.size|default:'nosize' }}-{{ item.color|default:'nocolor' }}">
+      <td class="py-4">
+        <div class="flex items-center">
+          {% if item.product.image %}
+          <img class="h-16 w-16 mr-4 rounded object-cover"
+               src="{{ item.product.image.url }}"
+               alt="{{ item.product.name }}">
+          {% else %}
+          <div class="h-16 w-16 mr-4 rounded bg-gray-200 flex items-center justify-center">
+            <i class="fa fa-image text-gray-400"></i>
+          </div>
+          {% endif %}
+          <div>
+            <span class="font-semibold block">{{ item.product.name }}</span>
+            {% if item.size or item.color %}
+            <small class="text-gray-500">
+              {% if item.size %}{{ item.size }}{% endif %}
+              {% if item.size and item.color %} / {% endif %}
+              {% if item.color %}{{ item.color }}{% endif %}
+            </small>
+            {% endif %}
+          </div>
+        </div>
+      </td>
+      <td class="py-4">${{ item.price|floatformat:2 }}</td>
+      <td class="py-4">
+        <!-- Quantity Update Form -->
+        <form method="POST"
+              action="{% url 'cart:cart_add' item.product.id %}"
+              hx-post="{% url 'cart:cart_add' item.product.id %}"
+              hx-target="#cart-items-container"
+              hx-swap="innerHTML"
+              class="inline-flex items-center">
+          {% csrf_token %}
+          <input type="hidden" name="override" value="true">
+          <input type="hidden" name="size" value="{{ item.size|default:'' }}">
+          <input type="hidden" name="color" value="{{ item.color|default:'' }}">
+
+          <button type="submit"
+                  name="quantity"
+                  value="{{ item.quantity|add:'-1' }}"
+                  class="w-8 h-8 flex items-center justify-center border rounded-l hover:bg-gray-100"
+                  {% if item.quantity <= 1 %}disabled{% endif %}>
+            <i class="fa fa-minus text-xs"></i>
+          </button>
+
+          <span class="w-12 h-8 flex items-center justify-center border-t border-b text-center">
+            {{ item.quantity }}
+          </span>
+
+          <button type="submit"
+                  name="quantity"
+                  value="{{ item.quantity|add:'1' }}"
+                  class="w-8 h-8 flex items-center justify-center border rounded-r hover:bg-gray-100">
+            <i class="fa fa-plus text-xs"></i>
+          </button>
+        </form>
+      </td>
+      <td class="py-4 font-semibold">${{ item.total_price|floatformat:2 }}</td>
+      <td class="py-4">
+        <!-- Remove Form -->
+        <form method="POST"
+              action="{% url 'cart:cart_remove' item.product.id %}"
+              hx-post="{% url 'cart:cart_remove' item.product.id %}"
+              hx-target="#cart-items-container"
+              hx-swap="innerHTML">
+          {% csrf_token %}
+          <input type="hidden" name="size" value="{{ item.size|default:'' }}">
+          <input type="hidden" name="color" value="{{ item.color|default:'' }}">
+          <button type="submit" class="text-gray-500 hover:text-red-600">
+            <i class="fa fa-trash"></i>
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
