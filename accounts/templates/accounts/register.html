@@ -1,44 +1,129 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main class="flex-grow">
-    <div class="flex items-center justify-center min-h-[calc(100vh-200px)] bg-gray-100 px-4 py-8">
-        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-gray-900">Create an account</h1>
-                <p class="mt-2 text-sm text-gray-600"> Already have an account?
-                    <a href="{% url 'accounts:login' %}" class="font-medium text-red-600 hover:text-red-500">Login</a>
-                </p>
+<div class="flex items-center justify-center min-h-[calc(100vh-200px)] bg-gray-100 px-4 py-8">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900">Create an account</h1>
+            <p class="mt-2 text-sm text-gray-600"> Already have an account?
+                <a href="{% url 'accounts:login' %}"
+                   class="font-medium text-red-600 hover:text-red-500"
+                   hx-boost="true">
+                    Login
+                </a>
+            </p>
+        </div>
+        <form
+                method="POST"
+                action="{% url 'accounts:register' %}"
+                hx-post="{% url 'accounts:register' %}"
+                hx-target="#form-container"
+                hx-swap="outerHTML"
+                hx-indicator="#spinner"
+                class="space-y-6">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                <div class="text-red-700">
+                    {{ form.non_field_errors }}
+                </div>
             </div>
-            <form novalidate="" class="space-y-6 ng-untouched ng-pristine ng-invalid">
+            {% endif %}
+            <div id="form-container">
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text"
+                           name="username"
+                           id="id_username"
+                           value="{{ form.username.value|default:'' }}"
+                           class="mt-1 w-full px-3 py-2 border {% if form.username.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    {% if form.username.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.username.errors.0 }}</p>
+                    {% endif %}
+                </div>
                 <div class="flex space-x-4">
                     <div class="flex-1">
-                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input id="first_name" formcontrolname="first_name" type="text" required="" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 ng-untouched ng-pristine ng-invalid">
+                        <label for="id_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text"
+                               name="first_name"
+                               id="id_first_name"
+                               value="{{ form.first_name.value|default:'' }}"
+                               class="mt-1 w-full px-3 py-2 border {% if form.first_name.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                        {% if form.first_name.errors %}
+                        <p class="mt-1 text-xs text-red-600">{{ form.first_name.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div class="flex-1">
-                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input id="last_name" formcontrolname="last_name" type="text" required="" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 ng-untouched ng-pristine ng-invalid">
+                        <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text"
+                               name="last_name"
+                               id="id_last_name"
+                               value="{{ form.last_name.value|default:'' }}"
+                               class="mt-1 w-full px-3 py-2 border {% if form.last_name.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                        {% if form.last_name.errors %}
+                        <p class="mt-1 text-xs text-red-600">{{ form.last_name.errors.0 }}</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
-                    <input id="email" formcontrolname="email" type="email" required="" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 ng-untouched ng-pristine ng-invalid">
+                    <label for="id_email" class="block text-sm font-medium text-gray-700">Email address</label>
+                    <input type="email"
+                           name="email"
+                           id="id_email"
+                           value="{{ form.email.value|default:'' }}"
+                           class="mt-1 w-full px-3 py-2 border {% if form.email.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    {% if form.email.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.email.errors.0 }}</p>
+                    {% endif %}
                 </div>
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input id="password" formcontrolname="password" type="password" required="" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 ng-untouched ng-pristine ng-invalid">
+                    <label for="id_password1" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password"
+                           name="password1"
+                           id="id_password1"
+                           class="mt-1 w-full px-3 py-2 border {% if form.password1.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    {% if form.password1.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.password1.errors.0 }}</p>
+                    {% else %}
                     <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters long.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Add password confirmation field (required by UserCreationForm) -->
+                <div>
+                    <label for="id_password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password"
+                           name="password2"
+                           id="id_password2"
+                           class="mt-1 w-full px-3 py-2 border {% if form.password2.errors %}border-red-500{% else %}border-gray-300{% endif %} rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500">
+                    {% if form.password2.errors %}
+                    <p class="mt-1 text-xs text-red-600">{{ form.password2.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <!-- Loading indicator (add this before the button) -->
+                <div id="spinner" class="htmx-indicator text-center mb-4">
+                    <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-red-600"></div>
+                    <span class="text-sm text-gray-600">Creating account...</span>
                 </div>
                 <!--container-->
                 <div>
                     <button type="submit"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled="">
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         Create Account
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
-</main>
+</div>
+<script>
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        if (evt.detail.successful) {
+            const redirectUrl = evt.detail.xhr.getResponseHeader('HX-Redirect');
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+            }
+        }
+    });
+</script>
 {% endblock %}
