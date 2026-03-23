@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">Join Our Team</h1>
+            <p class="text-xl text-gray-600">Build Something Beautiful With Us</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="space-y-12">
+            <!-- Why Work With Us -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Work With COVE?</h2>
+                <p class="text-gray-700 leading-relaxed mb-4">
+                    At COVE, we believe that great things happen when passionate people come together. We're not just building an eCommerce platform—we're creating experiences, building community, and redefining what it means to shop with intention.
+                </p>
+                <p class="text-gray-700 leading-relaxed">
+                    If you're looking for a place where your ideas matter, where creativity is celebrated, and where you can grow both personally and professionally, you've found your home.
+                </p>
+            </div>
+
+            <!-- Our Culture -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Culture</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-heart text-red-600 text-2xl mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">We Care Deeply</h3>
+                            <p class="text-gray-700">About our customers, our community, and each other. Empathy is at the core of everything we do.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-lightbulb text-yellow-500 text-2xl mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">We Stay Curious</h3>
+                            <p class="text-gray-700">Learning never stops. We encourage experimentation, fresh ideas, and continuous growth.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-handshake text-green-600 text-2xl mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">We Work Together</h3>
+                            <p class="text-gray-700">Collaboration over competition. We succeed as a team and celebrate wins together.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-balance-scale text-blue-600 text-2xl mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">We Value Balance</h3>
+                            <p class="text-gray-700">Great work happens when you have a life outside of it. We support flexibility and well-being.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perks & Benefits -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg shadow-md p-8 border border-red-100">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Perks & Benefits</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Competitive salary & equity</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Health, dental & vision insurance</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Flexible remote work options</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Generous PTO & paid holidays</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Professional development budget</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Employee discount on all products</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Team retreats & social events</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-check-circle text-red-600"></i>
+                        <span class="text-gray-700">Wellness & mental health support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Positions -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Open Positions</h2>
+
+                <div class="space-y-4">
+                    <!-- Position 1 -->
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start flex-wrap gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">Senior Full-Stack Developer</h3>
+                                <p class="text-gray-600 mb-2">Engineering • Remote / Hybrid</p>
+                                <p class="text-gray-700">Join our engineering team to build scalable, beautiful eCommerce experiences using Django, HTMX, and Tailwind CSS.</p>
+                            </div>
+                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition whitespace-nowrap">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    <!-- Position 2 -->
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start flex-wrap gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">UX/UI Designer</h3>
+                                <p class="text-gray-600 mb-2">Design • Remote</p>
+                                <p class="text-gray-700">Create intuitive, beautiful interfaces that delight our customers and reflect the COVE brand.</p>
+                            </div>
+                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition whitespace-nowrap">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    <!-- Position 3 -->
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start flex-wrap gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">Customer Experience Specialist</h3>
+                                <p class="text-gray-600 mb-2">Customer Support • Remote</p>
+                                <p class="text-gray-700">Be the voice of COVE, helping our customers with genuine care and creating memorable experiences.</p>
+                            </div>
+                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition whitespace-nowrap">Apply Now →</a>
+                        </div>
+                    </div>
+
+                    <!-- Position 4 -->
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start flex-wrap gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-1">Marketing Manager</h3>
+                                <p class="text-gray-600 mb-2">Marketing • Hybrid (NYC)</p>
+                                <p class="text-gray-700">Lead our brand storytelling, grow our community, and drive meaningful engagement across channels.</p>
+                            </div>
+                            <a href="#" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition whitespace-nowrap">Apply Now →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <p class="text-gray-600">Don't see the perfect fit? <a href="#" class="text-red-600 hover:underline">Send us your resume</a> and we'll keep you in mind for future opportunities.</p>
+                </div>
+            </div>
+
+            <!-- How to Apply -->
+            <div class="text-center bg-red-600 rounded-lg shadow-md p-12 text-white">
+                <h2 class="text-3xl font-bold mb-4">Ready to Make an Impact?</h2>
+                <p class="text-xl mb-6">
+                    We're excited to meet you. Bring your passion, your ideas, and your unique perspective.
+                </p>
+                <a href="#" class="inline-block bg-white text-red-600 px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition">
+                    View All Openings
+                </a>
+                <div class="mt-8">
+                    <p class="text-lg opacity-90">Questions? Reach out to us at</p>
+                    <p class="font-bold text-xl">careers@cove.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">Press & Media</h1>
+            <p class="text-xl text-gray-600">Stories, Features, and Updates from COVE</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="space-y-12">
+            <!-- Media Kit -->
+            <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg shadow-md p-8 border border-red-100 text-center">
+                <i class="fas fa-download text-red-600 text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Media Kit</h2>
+                <p class="text-gray-700 mb-4">Download our logo, brand assets, and press photos for your coverage.</p>
+                <a href="#" class="inline-block bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition">
+                    <i class="fas fa-download mr-2"></i>Download Media Kit
+                </a>
+            </div>
+
+            <!-- Press Contact -->
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <i class="fas fa-envelope text-red-600 text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Press Inquiries</h2>
+                <p class="text-gray-700 mb-4">For media inquiries, interviews, or press materials, please contact:</p>
+                <p class="text-xl font-semibold text-gray-900">press@cove.com</p>
+                <p class="text-gray-600 mt-2">or call (555) 123-4567</p>
+            </div>
+
+            <!-- Featured In -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Featured In</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+                    <div class="text-center">
+                        <i class="fas fa-newspaper text-gray-400 text-5xl"></i>
+                        <p class="text-sm text-gray-500 mt-2">Vogue</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-chart-line text-gray-400 text-5xl"></i>
+                        <p class="text-sm text-gray-500 mt-2">Forbes</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-tv text-gray-400 text-5xl"></i>
+                        <p class="text-sm text-gray-500 mt-2">TechCrunch</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-mobile-alt text-gray-400 text-5xl"></i>
+                        <p class="text-sm text-gray-500 mt-2">WWD</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest News -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Latest News</h2>
+
+                <div class="space-y-8">
+                    <!-- Article 1 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="flex justify-between items-start flex-wrap gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-900">COVE Raises $5M to Revolutionize Ethical Fashion eCommerce</h3>
+                            <span class="text-sm text-gray-500">March 15, 2026</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">The funding will help expand the platform's sustainable marketplace and launch new features for conscious consumers.</p>
+                        <a href="#" class="text-red-600 hover:underline">Read more →</a>
+                    </div>
+
+                    <!-- Article 2 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="flex justify-between items-start flex-wrap gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-900">How COVE is Redefining the Online Shopping Experience</h3>
+                            <span class="text-sm text-gray-500">February 28, 2026</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">A deep dive into how COVE combines technology with human-centered design to create meaningful connections.</p>
+                        <a href="#" class="text-red-600 hover:underline">Read more →</a>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="flex justify-between items-start flex-wrap gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-900">COVE Named Among "Best Places to Work" in 2026</h3>
+                            <span class="text-sm text-gray-500">January 10, 2026</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">The eCommerce startup is recognized for its inclusive culture, work-life balance, and commitment to employee growth.</p>
+                        <a href="#" class="text-red-600 hover:underline">Read more →</a>
+                    </div>
+
+                    <!-- Article 4 -->
+                    <div class="pb-4">
+                        <div class="flex justify-between items-start flex-wrap gap-2 mb-2">
+                            <h3 class="text-xl font-semibold text-gray-900">COVE Launches Holiday Campaign Supporting Local Artisans</h3>
+                            <span class="text-sm text-gray-500">December 5, 2025</span>
+                        </div>
+                        <p class="text-gray-600 mb-3">The "Made With Love" campaign highlights 50 small businesses and donates 10% of proceeds to artisan communities.</p>
+                        <a href="#" class="text-red-600 hover:underline">Read more →</a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="#" class="inline-block border border-red-600 text-red-600 px-6 py-2 rounded-md hover:bg-red-600 hover:text-white transition">
+                        View All Press Releases →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Press Releases Archive -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Press Release Archive</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center hover:bg-gray-50 p-2 rounded">
+                        <a href="#" class="text-gray-700 hover:text-red-600">COVE Announces New Sustainable Packaging Initiative</a>
+                        <span class="text-sm text-gray-500">Nov 2025</span>
+                    </div>
+                    <div class="flex justify-between items-center hover:bg-gray-50 p-2 rounded">
+                        <a href="#" class="text-gray-700 hover:text-red-600">COVE Partners with Local Artists for Exclusive Collection</a>
+                        <span class="text-sm text-gray-500">Sep 2025</span>
+                    </div>
+                    <div class="flex justify-between items-center hover:bg-gray-50 p-2 rounded">
+                        <a href="#" class="text-gray-700 hover:text-red-600">COVE Hits 100,000 Active Customers Milestone</a>
+                        <span class="text-sm text-gray-500">Jul 2025</span>
+                    </div>
+                    <div class="flex justify-between items-center hover:bg-gray-50 p-2 rounded">
+                        <a href="#" class="text-gray-700 hover:text-red-600">COVE Launches Mobile App for iOS and Android</a>
+                        <span class="text-sm text-gray-500">May 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In the Press -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">What They're Saying</h2>
+                <div class="space-y-6">
+                    <div class="italic text-gray-700 border-l-4 border-red-600 pl-4">
+                        <p>"COVE isn't just another eCommerce site—it's a movement. They've managed to combine style with substance in a way that resonates with today's conscious consumer."</p>
+                        <p class="text-gray-600 mt-2 not-italic">— Sarah Johnson, Vogue</p>
+                    </div>
+                    <div class="italic text-gray-700 border-l-4 border-red-600 pl-4">
+                        <p>"The team behind COVE understands that the future of retail is personal, intentional, and community-driven. They're setting a new standard."</p>
+                        <p class="text-gray-600 mt-2 not-italic">— Michael Chen, TechCrunch</p>
+                    </div>
+                    <div class="italic text-gray-700 border-l-4 border-red-600 pl-4">
+                        <p>"What impressed us most about COVE is their commitment to transparency and ethical practices. It's refreshing to see a company walk the talk."</p>
+                        <p class="text-gray-600 mt-2 not-italic">— Emma Rodriguez, Forbes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

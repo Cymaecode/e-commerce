@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "accounts",
     "cart",
     "orders",
+    "about_us",
 
     # htmx app
     "django_htmx",

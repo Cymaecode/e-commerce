@@ -24,9 +24,9 @@
             <div>
                 <h4 class="font-semibold mb-4">About Us</h4>
                 <ul class="space-y-2 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-white">Our Story</a></li>
-                    <li><a href="#" class="hover:text-white">Careers</a></li>
-                    <li><a href="#" class="hover:text-white">Press</a></li>
+                    <li><a href="{% url 'about_us:our_story' %}" hx-boost="true" class="hover:text-white">Our Story</a></li>
+                    <li><a href="{% url 'about_us:career' %}" hx-boost="true" class="hover:text-white">Careers</a></li>
+                    <li><a href="{% url 'about_us:press' %}" hx-boost="true" class="hover:text-white">Press</a></li>
                 </ul>
             </div>
 
