@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Returns & Exchanges - COVE{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">Returns & Exchanges</h1>
+            <p class="text-xl text-gray-600">Hassle-free returns within 30 days</p>
+        </div>
+
+        <!-- Return Policy Overview -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <div class="flex items-center justify-center mb-6">
+                <i class="fas fa-exchange-alt text-red-600 text-5xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 text-center mb-4">Our Return Policy</h2>
+            <p class="text-gray-700 text-center mb-6">We want you to love everything you buy from COVE. If something isn't perfect, we're here to help!</p>
+
+            <div class="grid md:grid-cols-3 gap-6 mt-8">
+                <div class="text-center">
+                    <i class="fas fa-calendar-alt text-red-600 text-3xl mb-3"></i>
+                    <h3 class="font-semibold text-gray-900">30 Days</h3>
+                    <p class="text-gray-600 text-sm">Return within 30 days of delivery</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-tag text-red-600 text-3xl mb-3"></i>
+                    <h3 class="font-semibold text-gray-900">Unused Condition</h3>
+                    <p class="text-gray-600 text-sm">Items must be unused with tags attached</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-receipt text-red-600 text-3xl mb-3"></i>
+                    <h3 class="font-semibold text-gray-900">Original Packaging</h3>
+                    <p class="text-gray-600 text-sm">Return in original packaging</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Return -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">How to Start a Return</h2>
+            <div class="space-y-6">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">1</div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Log Into Your Account</h3>
+                        <p class="text-gray-700">Go to Order History and select the order containing the item you wish to return.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">2</div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Select Items & Reason</h3>
+                        <p class="text-gray-700">Choose the items you want to return and select the reason for return.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">3</div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Print Return Label</h3>
+                        <p class="text-gray-700">Generate and print your prepaid return shipping label.</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <div class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">4</div>
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-1">Pack & Ship</h3>
+                        <p class="text-gray-700">Pack your items securely with all original packaging and tags, attach the label, and drop off at any shipping carrier location.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-gray-50 p-4 rounded-lg">
+                <p class="text-gray-700 text-sm">
+                    <i class="fas fa-info-circle text-red-600 mr-2"></i>
+                    <strong>Guest Returns:</strong> If you checked out as a guest, please contact our support team at support@cove.com with your order number to initiate a return.
+                </p>
+            </div>
+        </div>
+
+        <!-- Refund Information -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Refund Information</h2>
+
+            <div class="space-y-4">
+                <div class="border-l-4 border-red-600 pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">Processing Time</h3>
+                    <p class="text-gray-700">Once we receive your return, please allow 5-7 business days for processing. You'll receive an email confirmation when your refund is issued.</p>
+                </div>
+
+                <div class="border-l-4 border-red-600 pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">Refund Method</h3>
+                    <p class="text-gray-700">Refunds are issued to your original payment method. Depending on your bank, it may take an additional 3-5 business days for the refund to appear in your account.</p>
+                </div>
+
+                <div class="border-l-4 border-red-600 pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-1">Shipping Costs</h3>
+                    <p class="text-gray-700">Original shipping costs are non-refundable. Return shipping is free for all domestic returns. International customers are responsible for return shipping costs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exchanges -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Exchanges</h2>
+            <p class="text-gray-700 mb-4">Want a different size or color? The fastest way to get what you want is to:</p>
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-arrow-right text-red-600"></i>
+                    <span class="text-gray-700">Return the item you have (following the steps above)</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-arrow-right text-red-600"></i>
+                    <span class="text-gray-700">Place a new order for the desired item</span>
+                </div>
+            </div>
+            <p class="text-gray-700 mt-4">This ensures you get your new item as quickly as possible without waiting for the return to process.</p>
+        </div>
+
+        <!-- Non-Returnable Items -->
+        <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg shadow-md p-8 mb-8 border border-red-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Non-Returnable Items</h2>
+            <p class="text-gray-700 mb-4">The following items cannot be returned:</p>
+            <ul class="space-y-2">
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-times-circle text-red-600"></i>
+                    <span>Final sale or clearance items</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-times-circle text-red-600"></i>
+                    <span>Intimates, lingerie, and swimwear (for hygiene reasons)</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-times-circle text-red-600"></i>
+                    <span>Gift cards</span>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <i class="fas fa-times-circle text-red-600"></i>
+                    <span>Items worn, washed, or with missing tags</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Damaged or Incorrect Items -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Damaged or Incorrect Items</h2>
+            <p class="text-gray-700 mb-4">If you received a damaged, defective, or incorrect item, please contact us immediately at:</p>
+            <div class="text-center">
+                <a href="mailto:support@cove.com" class="text-red-600 font-semibold hover:underline">support@cove.com</a>
+                <p class="text-gray-600 mt-2">Please include your order number and photos of the item, and we'll make it right as quickly as possible.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Link -->
+        <div class="text-center">
+            <p class="text-gray-600">Still have questions? Check out our <a href="{% url 'help_page:faqs' %}" class="text-red-600 hover:underline">FAQs</a> or <a href="{% url 'help_page:contact_us' %}" class="text-red-600 hover:underline">contact us</a> for assistance.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

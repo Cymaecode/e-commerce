@@ -26,6 +26,7 @@ urlpatterns = [
     path("cart/", include("cart.urls")),
     path("orders/", include("orders.urls")),
     path("about_us/", include("about_us.urls")),
+    path("help_page/", include("help_page.urls")),
 ]
 
 # for serving media files in development

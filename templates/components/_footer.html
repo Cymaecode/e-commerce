@@ -34,10 +34,10 @@
             <div>
                 <h4 class="font-semibold mb-4">Help</h4>
                 <ul class="space-y-2 text-sm text-gray-400">
-                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                    <li><a href="#" class="hover:text-white">FAQs</a></li>
-                    <li><a href="#" class="hover:text-white">Shipping</a></li>
-                    <li><a href="#" class="hover:text-white">Returns</a></li>
+                    <li><a href="{% url 'help_page:contact_us' %}" hx-boost="true" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="{% url 'help_page:faqs' %}" hx-boost="true" class="hover:text-white">FAQs</a></li>
+                    <li><a href="{% url 'help_page:returns' %}" hx-boost="true" class="hover:text-white">Shipping</a></li>
+                    <li><a href="{% url 'help_page:shipping' %}" hx-boost="true" class="hover:text-white">Returns</a></li>
                 </ul>
             </div>
 

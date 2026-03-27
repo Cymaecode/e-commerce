@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQs - COVE{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-16">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h1>
+            <p class="text-xl text-gray-600">Find answers to common questions about shopping at COVE</p>
+        </div>
+
+        <!-- Search -->
+        <div class="mb-12">
+            <div class="relative max-w-2xl mx-auto">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text"
+                       placeholder="Search FAQs..."
+                       class="w-full border border-gray-300 rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-red-300">
+            </div>
+        </div>
+
+        <!-- FAQ Categories -->
+        <div class="space-y-8">
+            <!-- Orders -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Orders</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How do I place an order?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Placing an order at COVE is easy! Simply browse our products, add items to your cart, and proceed to checkout. You'll need to provide your shipping information and payment details. Once your order is confirmed, you'll receive an email confirmation with your order details.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">Can I modify or cancel my order after placing it?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">We process orders quickly to ensure fast shipping. If you need to modify or cancel your order, please contact us within 1 hour of placing your order. After that, we may not be able to make changes. Contact our support team immediately at support@cove.com.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How do I track my order?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Once your order ships, you'll receive a shipping confirmation email with a tracking number. You can also track your order by logging into your account and viewing your order history. If you checked out as a guest, use the tracking link sent to your email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Shipping</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How long does shipping take?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Standard shipping typically takes 3-7 business days. Express shipping takes 1-3 business days. Shipping times may vary during holidays or peak seasons. You'll receive a tracking number once your order ships.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">Do you offer free shipping?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Yes! We offer free standard shipping on all orders over $75 within the continental US. International shipping rates vary by location and order size.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">Do you ship internationally?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Yes, we ship to select countries worldwide. International shipping rates and delivery times vary by destination. Please note that customers are responsible for any customs duties or taxes imposed by their country.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Returns & Exchanges -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Returns & Exchanges</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">What is your return policy?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">We accept returns within 30 days of delivery. Items must be unused, unworn, and in original packaging with all tags attached. Final sale items cannot be returned. For more details, please visit our Returns page.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How do I start a return?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">To start a return, log into your account, go to Order History, and select the order you want to return. Follow the prompts to generate a return label. If you checked out as a guest, contact our support team for assistance.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How long does it take to process a refund?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Once we receive your return, please allow 5-7 business days for processing. Refunds will be issued to your original payment method. You'll receive an email confirmation when your refund is processed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Payment</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">What payment methods do you accept?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">We accept all major credit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, and Google Pay. All transactions are secure and encrypted.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">Is my payment information secure?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Absolutely! We use industry-standard SSL encryption to protect your payment information. We never store your full credit card details on our servers. Your security is our top priority.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-red-600 px-6 py-4">
+                    <h2 class="text-2xl font-bold text-white">Products</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="faq-item border-b border-gray-200">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">How do I know what size to order?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Each product page includes a detailed size guide. We recommend measuring yourself and comparing to our size chart. If you're between sizes, we suggest sizing up for a more comfortable fit.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center hover:bg-gray-50">
+                            <span class="font-semibold text-gray-900">Are your products ethically made?</span>
+                            <i class="fas fa-chevron-down text-gray-500 transition-transform"></i>
+                        </button>
+                        <div class="faq-answer px-6 pb-4 hidden">
+                            <p class="text-gray-700">Yes! We're committed to ethical sourcing and sustainable practices. We partner with manufacturers who share our values of fair wages, safe working conditions, and environmental responsibility. Learn more on our About Us page.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Still Have Questions -->
+        <div class="mt-12 text-center bg-gradient-to-r from-red-50 to-pink-50 rounded-lg shadow-md p-8 border border-red-100">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Still Have Questions?</h2>
+            <p class="text-gray-700 mb-4">We're here to help! Contact our support team and we'll get back to you within 24 hours.</p>
+            <a href="{% url 'help_page:contact_us' %}" class="inline-block bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition">
+                Contact Us
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FAQ accordion functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+
+                // Toggle current answer
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+
+                // Optional: Close other open FAQs
+                // Uncomment below to close others when opening one
+                /*
+                faqQuestions.forEach(otherQuestion => {
+                    if (otherQuestion !== question) {
+                        const otherAnswer = otherQuestion.nextElementSibling;
+                        const otherIcon = otherQuestion.querySelector('i');
+                        if (!otherAnswer.classList.contains('hidden')) {
+                            otherAnswer.classList.add('hidden');
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    }
+                });
+                */
+            });
+        });
+    });
+</script>
+{% endblock %}
