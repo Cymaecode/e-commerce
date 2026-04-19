@@ -8,7 +8,7 @@
         <!-- Slide 1 -->
         <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-100" id="slide-1">
             <img class="w-full h-full object-cover"
-                 src="https://picsum.photos/seed/slide1/1600/600"
+                 src="{% static 'store/images/slide_1.png' %}"
                  alt="Summer Collection is Here">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
@@ -23,7 +23,7 @@
         <!-- Slide 2 -->
         <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-2">
             <img class="w-full h-full object-cover"
-                 src="https://picsum.photos/seed/slide2/1600/600"
+                 src="{% static 'store/images/slide_2.png' %}"
                  alt="For Men: Sharp & Stylish">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
@@ -38,7 +38,7 @@
         <!-- Slide 3 -->
         <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out opacity-0" id="slide-3">
             <img class="w-full h-full object-cover"
-                 src="https://picsum.photos/seed/slide3/1600/600"
+                 src="{% static 'store/images/slide_3.png' %}"
                  alt="Accessorize Your Look">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white p-4">
@@ -72,12 +72,14 @@
     <section class="mb-12">
         <h2 class="text-3xl font-bold text-center mb-8">Shop by Category</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
             <!-- Jackets Category -->
             <a href="{% url 'store:product_list_by_category' 'jackets' %}"
                class="relative rounded-lg overflow-hidden group h-64">
-                <img src="https://picsum.photos/seed/cat1/500/500"
+                <img src="{% static 'store/images/jackets_category.png' %}"
                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                      alt="Jackets">
+
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                     <h3 class="text-white text-2xl font-bold">Jackets</h3>
                 </div>
@@ -86,7 +88,7 @@
             <!-- Dresses Category -->
             <a href="{% url 'store:product_list_by_category' 'dresses' %}"
                class="relative rounded-lg overflow-hidden group h-64">
-                <img src="https://picsum.photos/seed/cat2/500/500"
+                <img src="{% static 'store/images/dresses_category.png' %}"
                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                      alt="Dresses">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -97,7 +99,7 @@
             <!-- Shoes Category -->
             <a href="{% url 'store:product_list_by_category' 'shoes' %}"
                class="relative rounded-lg overflow-hidden group h-64">
-                <img src="https://picsum.photos/seed/cat3/500/500"
+                <img src="{% static 'store/images/shoes_category.png' %}"
                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                      alt="Shoes">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -108,7 +110,7 @@
             <!-- Accessories Category -->
             <a href="{% url 'store:product_list_by_category' 'accessories' %}"
                class="relative rounded-lg overflow-hidden group h-64">
-                <img src="https://picsum.photos/seed/cat4/500/500"
+                <img src="{% static 'store/images/accessories_category.png' %}"
                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                      alt="Accessories">
                 <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
